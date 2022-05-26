@@ -1,5 +1,5 @@
 export const formatEvents = (ticketMasterResponse, filters = null) => {
-  let formattedResponse = {events: []};
+  let formattedResponse = {events: [], page: ticketMasterResponse.page};
   ticketMasterResponse._embedded?.events.forEach(event => {
     formattedResponse.events.push({
       name: event.name,
@@ -20,7 +20,6 @@ export const formatEvents = (ticketMasterResponse, filters = null) => {
 };
 
 const filterEvents = (formattedResponse, filters) => {
-  console.log(filters);
 
   if (filters.maxPrice) {
     formattedResponse.events = formattedResponse.events.filter(event => {
