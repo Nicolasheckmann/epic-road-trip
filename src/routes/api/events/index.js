@@ -36,11 +36,10 @@ export const get = async ({url}) => {
         body: formatEvents(response, filters)
       }
     })
-    .catch(error => {
+    .catch(err => {
       return {
-        status: error.code,
-        body: error.message
-
+        status: err.status,
+        body: err.data
       }
     });
 }
