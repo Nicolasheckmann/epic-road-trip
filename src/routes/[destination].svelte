@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { getEvents } from '../services/events.js';
 	import EventCard from '$lib/cards/EventCard.svelte';
+	import DestinationHeader from "../lib/DestinationHeader.svelte";
 
 	let events = [];
 
@@ -33,6 +34,7 @@
 	<!--	 left panel, 50% page width-->
 	<!--	 the html in left panel is temporary, for test MapContainer component, and will need to be split out-->
 	<div class="w-1/2 p-5">
+		<DestinationHeader />
 		<div class="grid grid-cols-3 gap-4">
 			{#if events}
 				{#each events as event}
@@ -46,7 +48,7 @@
 
 	<!-- right panel, 50% page width-->
 	<!-- please comment out this component when not developing on it, to save maps api requests which is limited (or paying) -->
-	<div class="w-1/2">
-		<MapContainer {coords} />
-	</div>
+<!--	<div class="w-1/2">-->
+<!--		<MapContainer {coords} />-->
+<!--	</div>-->
 </div>
