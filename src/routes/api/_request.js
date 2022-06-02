@@ -25,3 +25,21 @@ export const requestTicketMaster = (method, url) => {
 			};
 		});
 };
+
+export const requestUnsplash = (method, url) => {
+	const baseUrl = 'https://api.unsplash.com';
+	url = baseUrl + url;
+	url += '&client_id=' + import.meta.env.VITE_UNSPLASH_API_KEY;
+	return axios({
+		url,
+		method,
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).catch((err) => {
+		throw {
+			data: err.response.data,
+			status: err.response.status
+		};
+	});
+}
