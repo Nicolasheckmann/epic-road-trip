@@ -1,7 +1,7 @@
 <script>
 </script>
 
-<header class="border-solid border-b-2" id="header-container">
+<header class="sticky top-0 border-solid border-b-2" id="header-container">
 	<!-- <div class="corner">
 		<a href="https://kit.svelte.dev">
 			<img src={logo} alt="SvelteKit" />
