@@ -32,11 +32,11 @@
 <div class="flex">
 	<!--	 left panel, 50% page width-->
 	<!--	 the html in left panel is temporary, for test MapContainer component, and will need to be split out-->
-	<div class="w-1/2 p-5">
+	<div class="w-1/2 bg-gray-50">
 		<div>
 			<DestinationHeader {city} />
 		</div>
-		<div class="grid grid-cols-3 gap-4">
+		<div class="grid grid-cols-3 gap-4 p-5">
 			{#if events}
 				{#each events as event}
 					<div on:click={flyTo(event)}>
