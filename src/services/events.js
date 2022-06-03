@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const getEvents = params => {
 	return axios.get(`/api/events`, { params });
 };
