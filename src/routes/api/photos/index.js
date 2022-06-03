@@ -16,10 +16,9 @@ export const get = async ({url}) => {
 
   return await requestUnsplash("get", requestUrl)
     .then((response) => {
-      console.log("=>(index.js:20) response", response);
       return {
         status: 200,
-        body: response.data.results[0].urls.raw
+        body: response.data.results[0].urls
       }
     })
     .catch(err => {
