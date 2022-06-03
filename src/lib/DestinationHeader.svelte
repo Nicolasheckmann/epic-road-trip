@@ -15,6 +15,6 @@
 </script>
 {#if destinationPhotoUrls}
   <div>
-    <img src="{destinationPhotoUrls.raw}" alt="picture of a city">
+    <img src="{destinationPhotoUrls.raw}" alt="a city">
   </div>
 {/if}
