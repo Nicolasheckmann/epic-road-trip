@@ -32,6 +32,7 @@
   "type": "module",
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "amadeus": "^6.0.0",
     "axios": "^0.27.2",
     "mapbox-gl": "^2.8.2"
   }
