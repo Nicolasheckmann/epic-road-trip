@@ -2,13 +2,15 @@
 	import { onMount } from 'svelte';
 	import 'mapbox-gl/dist/mapbox-gl.css';
 	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+	import EventModal from './modals/EventModal.svelte';
 
-    export let coords
-    let map = null
-    let marker = null
+	export let coords;
+	export let event = null;
+	let map = null;
+	let marker = null;
 
 	onMount(async () => {
-        const mapboxgl = (await import('mapbox-gl')).default;
+		const mapboxgl = (await import('mapbox-gl')).default;
 		mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 		map = new mapboxgl.Map({
@@ -20,22 +22,24 @@
 		});
 		map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-        marker = new mapboxgl.Marker({
-            color: "#FF7F50",
-        })
+		marker = new mapboxgl.Marker({
+			color: '#FF7F50'
+		});
 	});
 
-    $: map?.easeTo({
-        center: [coords.longitude, coords.latitude],
-        zoom: 12,
-        essential: true
-    });
+	$: map?.easeTo({
+		center: [coords.longitude, coords.latitude],
+		zoom: 12,
+		essential: true
+	});
 
-    $:  marker?.setLngLat([coords.longitude, coords.latitude])
-        .addTo(map);
+	$: marker?.setLngLat([coords.longitude, coords.latitude]).addTo(map);
 </script>
 
-<div id="map" />
+<div id="map" ></div>
+{#if event}
+	<EventModal {event} />
+{/if}
 
 <style>
 	#map {
