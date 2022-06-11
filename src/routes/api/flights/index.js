@@ -5,7 +5,7 @@ import Amadeus from "amadeus"
 
 export const get = async ({url}) => {
   
-  var amadeus = new Amadeus({
+  const amadeus = new Amadeus({
     clientId: import.meta.env.VITE_AMADEUS_API_KEY,
     clientSecret: import.meta.env.VITE_AMADEUS_API_SECRET
   });
