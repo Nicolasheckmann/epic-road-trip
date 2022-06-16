@@ -1,5 +1,6 @@
 export const formatEvents = (ticketMasterResponse, filters = null) => {
   let formattedResponse = {events: [], page: ticketMasterResponse.page};
+  // let previousEventName =  null
   ticketMasterResponse._embedded?.events.forEach(event => {
     formattedResponse.events.push({
       name: event.name,
@@ -14,26 +15,25 @@ export const formatEvents = (ticketMasterResponse, filters = null) => {
       location: event._embedded?.venues?.[0]?.location
     });
   });
-
-  if (filters) return filterEvents(formattedResponse, filters);
-  return formattedResponse;
+  return filterEvents(formattedResponse, filters);
 };
 
 const filterEvents = (formattedResponse, filters) => {
 
-  if (filters.maxPrice) {
+  if (filters?.maxPrice) {
     formattedResponse.events = formattedResponse.events.filter(event => {
       if (!event.priceRanges) return event;
       return event.priceRanges.max <= filters.maxPrice;
     });
   }
 
-  if (filters.minPrice) {
+  if (filters?.minPrice) {
     formattedResponse.events = formattedResponse.events.filter(event => {
       if (!event.priceRanges) return event;
       return event.priceRanges.min >= filters.minPrice;
     });
   }
+
 
   return formattedResponse;
 };

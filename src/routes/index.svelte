@@ -4,17 +4,7 @@
 
   function navigate(e) {
     e.preventDefault()
-    console.log("city", city)
     goto(city)
-  }
-
-  function fetchAutoComplete() {
-    // console.log(city)
-    // fetch('https://api.tomtom.com/search/2/autocomplete/'+city+'.json?key=G0dFaozipp95cOwDyzpBKNLAgUvefrLb&language=fr-FR')
-    // .then(response => console.log(response))
-    // const res = cities.find(c => c.name.includes(city))
-
-    console.log("RES:", res)
   }
 
 </script>
@@ -26,7 +16,6 @@
         <div class="mb-6">
           <label for="email" class="block text-center mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your destination</label>
           <input
-          on:input={() => fetchAutoComplete()}
           type="text"
           bind:value={city} id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ex: Paris" required>
         </div>
