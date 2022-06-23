@@ -64,7 +64,7 @@
 	};
 </script>
 
-<div class="bg-white absolute z-10 left-5 right-5 rounded-lg temp-height bottom-5">
+<div class="bg-white absolute z-10 left-5 right-5 rounded-lg temp-height bottom-5 shadow-lg">
 	<div class="flex">
 		<div class="w-4/6 p-3">
 			<div class="flex mb-2 inline-flex items-center">
@@ -74,7 +74,7 @@
 			<div class="flex mb-4">
 				{#if segment}
 					<p
-						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-sky-100 bg-sky-600 rounded-full"
+						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-sky-100 bg-sky-700 rounded-full"
 					>
 						{segment}
 					</p>
@@ -82,7 +82,7 @@
 
 				{#if genre}
 					<p
-						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-emerald-100 bg-emerald-600 rounded-full"
+						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-emerald-100 bg-emerald-700 rounded-full"
 					>
 						{genre}
 					</p>
@@ -90,7 +90,7 @@
 
 				{#if subGenre}
 					<p
-						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-rose-100 bg-rose-600 rounded-full"
+						class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-rose-100 bg-rose-700 rounded-full"
 					>
 						{subGenre}
 					</p>
@@ -114,7 +114,7 @@
 			{/if}
 			{#if description}
 				<div>
-					<p class={truncateClass}>{description}</p>
+					<p class={truncateClass}>{@html description}</p>
 					<button class="underline" on:click|preventDefault={() => toggleDescription()}>
 						{fullDesc ? 'hide' : 'see more...'}
 					</button>
@@ -124,7 +124,7 @@
 		<div class="w-2/6 p-5 flex flex-col items-center">
 			<img width="300" class="rounded" src={selectedImage.url} alt={event.name} />
 			{#if event.url}
-				<button on:click={() => window.open(event.url)} class="rounded-full bg-sky-600 px-3 py-1 text-white mt-5">Book event</button>
+				<button on:click={() => window.open(event.url)} class="rounded-full bg-sky-700 px-3 py-1 text-white mt-5">Book event</button>
 			{/if}
 		</div>
 	</div>

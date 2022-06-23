@@ -28,12 +28,12 @@
 	});
 
 	$: map?.easeTo({
-		center: [coords.longitude, coords.latitude],
+		center: [coords.lon, coords.lat],
 		zoom: 12,
 		essential: true
 	});
 
-	$: marker?.setLngLat([coords.longitude, coords.latitude]).addTo(map);
+	$: marker?.setLngLat([coords.lon, coords.lat]).addTo(map);
 </script>
 
 <div id="map" ></div>

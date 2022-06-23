@@ -6,16 +6,15 @@
 	export let events;
 	export let title;
 	export let cardClickCB;
-	console.log('=>(Carousel.svelte:9) cardClickCB', cardClickCB.toString());
 
 	let indexToShow = 0;
 	let carouselExpanded = true;
 
 	const toggleHeight = (maxHeight) => {
-		let e = document.getElementById('expand-events'); // e = the gray div
+		let e = document.getElementById('expand-events');
 
-		if (e.style.height != '0px') {
-			e.style.height = '0px'; // height of one line: 20px
+		if (e.style.height !== '0px') {
+			e.style.height = '0px';
 			carouselExpanded = false;
 		} else {
 			e.style.height = maxHeight + 'px';
@@ -45,7 +44,7 @@
 		<div class="flex overflow-x-auto gap-6 snap-x snap-mandatory">
 			<EventCard event={events[indexToShow]} on:click={cardClickCB(events[indexToShow])} />
 			<EventCard event={events[indexToShow + 1]} on:click={cardClickCB(events[indexToShow + 1])} />
-			<EventCard event={events[indexToShow + 2]} on:click={cardClickCB(events[indexToShow + 2])} } />
+			<EventCard event={events[indexToShow + 2]} on:click={cardClickCB(events[indexToShow + 2])} />
 		</div>
 		<button class="float-right" on:click={() => moveIndex('next')}>
 			<Icon path={mdiChevronRight} color="black" />
