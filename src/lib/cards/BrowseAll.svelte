@@ -4,14 +4,15 @@
 	import { getEvents } from '../../services/events.js';
     import EventCard from '$lib/cards/EventCard.svelte';
     import { onMount } from 'svelte';
-    import { page } from '$app/stores';
+    import { globalSearch, updateStore } from '../../store.js';
+
 
 	export let cardClickCB;
     export let backCarousel; // get back to Carousel
     let size = 12; // nombre d'events demandé à chaque page
     let pagination = 1;
     let arrayPagination = Array(1, 2, 3);
-	let city = $page.params.destination;
+	let city = $globalSearch.city.name;
     let events = [];
     let totalPages = 0;
 
@@ -35,7 +36,10 @@
 
     const managePages = async (index) => {
         console.log("manage pages ", index)
-        pagination = index;
+        if (index <= 1)
+            pagination = 1;
+        else
+            pagination = index;
         
         if (pagination < 3)
             arrayPagination = Array(1, 2, 3)
