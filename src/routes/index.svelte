@@ -1,32 +1,158 @@
 <script>
 	import { goto } from '$app/navigation';
+	import Icon from 'mdi-svelte';
+	import { mdiMagnify } from '@mdi/js';
+	import { globalSearch, updateStore } from '../store.js';
+	import { getCitiesSuggestion } from '../services/cities.js';
+
 	let city = '';
+	let suggestions = [];
+	let warning = false;
 
-  function navigate(e) {
-    e.preventDefault()
-    goto(city)
-  }
+	$: $globalSearch.city && (warning = false);
 
+	let isFocused = false;
+	const onFocus = () => {
+		isFocused = true;
+		suggestions = [];
+	};
+	const onBlur = () => {
+		isFocused = false;
+		suggestions = [];
+	};
+
+	const searchCities = async (cityQuery) => {
+		if (cityQuery.length > 2) {
+			const params = {
+				cityQuery,
+				limit: 5
+			};
+			getCitiesSuggestion(params).then((res) => (suggestions = res));
+		}
+	};
+
+	const navigate = () => {
+		if (!$globalSearch.city?.lat || !$globalSearch.city?.lon) {
+			warning = true;
+		} else {
+			const lat = $globalSearch.city.lat;
+			const lon = $globalSearch.city.lon;
+			goto(`planner?lat=${lat}&lon=${lon}`);
+		}
+	};
 </script>
 
+<div class="bg-slate-100">
+	<div class="flex justify-center h-screen">
+		<div
+			class="hidden bg-cover lg:block lg:w-2/3"
+			style="background-image: url(https://source.unsplash.com/A5rCN8626Ck/1920x1080)"
+		>
+			<div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+				<div>
+					<h2 class="text-4xl font-bold text-white">Epic Road Trip</h2>
 
-<div class="mx-auto my-48 block p-6 h-64 max-w-lg bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-    <h5 class="mb-2 text-2xl font-bold text-center tracking-tight text-gray-900 dark:text-white">Plan a new trip</h5>
-    <form>
-        <div class="mb-6">
-          <label for="email" class="block text-center mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your destination</label>
-          <input
-          type="text"
-          bind:value={city} id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ex: Paris" required>
-        </div>
-        <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-            </div>
-            <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-          </div>
-        <div class="text-center">
-        <button on:click={(e) => navigate(e)} class="mt-10 mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-        </div>
-      </form>
+					<p class="max-w-xl mt-3 text-gray-300">
+						Some are too lazy, and some are too busy, a lot of people can’t organize travels
+						properly...<br /> Here is our solution !
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+			<div class="flex-1">
+				<div class="text-center">
+					<h2 class="text-4xl font-bold text-center text-gray-700">Epic Road Trip</h2>
+
+					<p class="mt-3 text-gray-500">Adventure awaits, go find it !</p>
+				</div>
+
+				<div class="mt-8">
+					<form autocomplete="off">
+						<div class="relative">
+							<label for="destination" class="block mb-2 text-sm text-gray-600"
+								>Where do you want to go ?</label
+							>
+							<div>
+								<input
+									type="text"
+									autocomplete="off"
+									on:focus={onFocus}
+									on:blur={onBlur}
+									bind:value={city}
+									on:input|preventDefault={(e) => {
+										searchCities(e.target.value);
+									}}
+									id="destination"
+									placeholder="Enter a city"
+									class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+								/>
+								{#if warning}
+									<p class="text-sm text-red-600 ml-0.5">Please choose a destination</p>
+								{/if}
+								{#if isFocused && suggestions?.length > 0}
+									<div
+										class="absolute right-0 left-0 bg-white z-10 px-2 pb-2 rounded-lg mt-2 border text-ellipsis"
+									>
+										{#each suggestions as suggestion}
+											<ul>
+												<li
+													class="mt-2 flex items-center cursor-pointer text-ellipsis"
+													on:mousedown={() => {
+														city = suggestion.name;
+														updateStore({ city: suggestion });
+													}}
+												>
+													<Icon path={mdiMagnify} size="0.8" />
+													<p class="text-sm font-medium ml-2 mr-1">
+														{suggestion.name}
+													</p>
+													<p class="text-xs text-ellipsis	">
+														{suggestion.state + ', ' + suggestion.country}
+													</p>
+												</li>
+											</ul>
+										{/each}
+									</div>
+								{/if}
+							</div>
+						</div>
+
+						<div class="mt-6">
+							<div class="flex justify-between mb-2">
+								<label for="datepicker" class="text-sm text-gray-600"
+									>When do you want to go ?</label
+								>
+							</div>
+							<input
+								type="date"
+								id="datepicker"
+								on:change|preventDefault={(e) => {
+									console.log('=>(index.svelte:135) e.target.value', e.target.value, "zoeifhzef");
+									updateStore({ startDate: e.target.value });
+								}}
+								class="block w-full px-4 py-2 mt-2 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+							/>
+						</div>
+
+						<div class="mt-6">
+							<button
+								on:click|preventDefault={() => navigate()}
+								class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+							>
+								Start planning
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<style>
+	#datepicker {
+		color: rgb(55 65 81);
+	}
+</style>

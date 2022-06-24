@@ -34,8 +34,8 @@
   "type": "module",
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
-    "amadeus": "^6.0.0",
     "@mdi/js": "^6.7.96",
+    "amadeus": "^6.0.0",
     "axios": "^0.27.2",
     "mapbox-gl": "^2.8.2",
     "svelte-preprocess": "^4.10.7"

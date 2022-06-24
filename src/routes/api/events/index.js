@@ -18,7 +18,7 @@ export const get = async ({ url }) => {
 		return {
 			status: 400,
 			body: {
-				error: 'city param is required'
+				error: 'cities.js param is required'
 			}
 		};
 	}

@@ -6,41 +6,41 @@
 	import Carousel from '$lib/cards/Carousel.svelte';
 	import DestinationHeader from '../lib/DestinationHeader.svelte';
 	import Header from '../lib/Header.svelte';
+	import { globalSearch, updateStore } from '../store.js';
+	import { getCityReverse } from '../services/cities.js';
 
-	let events = [];
-	let selectedEvent = null;
-	let startDate = null;
-	let endDate = null;
-
-	// let events = [];
-	let city = $page.params.destination;
 	let coords = {
-		latitude: 43.610769,
-		longitude: 3.876716
-	};
-
-	const search = (city, startDate, endDate) => {
-		const params = {
-			city,
-			sort: 'date,asc'
-		};
-
-		if (startDate) params.startDateTime = startDate + 'T00:00:00z';
-		if (endDate) params.endDateTime = endDate + 'T23:59:59z';
-
-		getEvents(params).then((response) => {
-			events = response.data.events;
-			if (events && events[0]?.location) coords = events[0].location;
-		});
+		lat: $page.url.searchParams.get('lat'),
+		lon: $page.url.searchParams.get('lon')
 	};
 
 	onMount(async () => {
-		await search(city);
+		if (!$globalSearch.city) {
+			const city = await getCityReverse(coords);
+			await updateStore({ city: city });
+		}
 	});
 
-	$: if (startDate || endDate) {
-		search(city, startDate, endDate);
-	}
+	let events = [];
+	let selectedEvent = null;
+
+	const search = () => {
+		const paramsEvents = {
+			city: $globalSearch.city?.name,
+			sort: 'date,asc'
+		};
+		const startDate = $globalSearch.startDate;
+		const endDate = $globalSearch.endDate;
+
+		if (startDate) paramsEvents.startDateTime = startDate + 'T00:00:00z';
+		if (endDate) paramsEvents.endDateTime = endDate + 'T23:59:59z';
+
+		getEvents(paramsEvents).then((response) => {
+			events = response.data.events;
+		});
+	};
+
+	$: if ($globalSearch.city) search();
 
 	const flyTo = (event) => {
 		if (event.location) coords = event.location;
@@ -50,10 +50,10 @@
 
 <div class="flex">
 	<!-- left panel, 50% page width -->
-	<div class="w-1/2 bg-gray-50">
+	<div class="w-1/2 bg-gray-50 relative">
 		<Header />
 		<div>
-			<DestinationHeader {city} bind:startDate bind:endDate />
+			<DestinationHeader />
 		</div>
 		<div class="p-5">
 			{#if events.length > 0}
