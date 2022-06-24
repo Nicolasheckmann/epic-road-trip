@@ -1,6 +1,6 @@
 <script>
     import Icon from 'mdi-svelte';
-    import { mdiChevronLeft, mdiChevronRight, mdiMagnify } from '@mdi/js';
+    import { mdiChevronLeft, mdiChevronRight, mdiMagnify, mdiFilterRemoveOutline } from '@mdi/js';
 	import { getEvents } from '../../services/events.js';
     import EventCard from '$lib/cards/EventCard.svelte';
     import { onMount } from 'svelte';
@@ -9,6 +9,12 @@
 
 	export let cardClickCB;
     export let backCarousel; // get back to Carousel
+    let bMinPrice = false;
+    let minPrice = 0;
+    let bMaxPrice = false;
+    let maxPrice = 0;
+    let bSearchText = false;
+    let searchText = ''
     let size = 12; // nombre d'events demandé à chaque page
     let pagination = 1;
     let arrayPagination = Array(1, 2, 3);
@@ -21,6 +27,8 @@
 		const params = {
 			city,
             size,
+            minPrice: bMinPrice ? minPrice : null,
+            maxPrice: bMaxPrice ? maxPrice : null,
             page: pagination,
 			sort: 'date,asc'
 		};
@@ -63,15 +71,44 @@
 			<Icon path={mdiChevronLeft} color="black" />
 			<span>Back</span>
 		</button>
-		<button class="flex ml-auto text-center btn-browse">
+        {#if !bMinPrice}
+		<button on:click={() => bMinPrice = true} class="flex ml-auto text-center btn-browse">
 			<span>Min price</span>
 		</button>
-		<button class="flex ml-auto text-center btn-browse">
+        {:else}
+        <div class="inline m-auto">
+            <input bind:value={minPrice} placeholder="Min price" class="w-24 border-black border-2 rounded" type="number" />
+            <div class="inline cursor-pointer" on:click={() => bMinPrice = false}>
+                <Icon path={mdiFilterRemoveOutline} color="red"/>
+            </div>
+        </div>
+        {/if}
+		{#if !bMaxPrice}
+		<button on:click={() => bMaxPrice = true} class="flex ml-auto text-center btn-browse">
 			<span>Max price</span>
 		</button>
-		<button class="flex ml-auto text-center btn-browse">
-			<Icon path={mdiMagnify} color="black" />
+        {:else}
+        <div class="inline m-auto">
+            <input bind:value={maxPrice} placeholder="Max price" class="w-24 border-black border-2 rounded" type="number" />
+            <div class="inline cursor-pointer" on:click={() => bMaxPrice = false}>
+                <Icon path={mdiFilterRemoveOutline} color="red"/>
+            </div>
+        </div>
+        {/if}
+        {#if !bSearchText}
+		<button on:click={() => bSearchText = true} class="flex ml-auto text-center btn-browse">
 			<span>Search</span>
+		</button>
+        {:else}
+        <div class="inline m-auto">
+            <input placeholder="Enter keywords" class="w-24 border-black border-2 rounded" type="text" />
+            <div class="inline cursor-pointer" on:click={() => bSearchText = false}>
+                <Icon path={mdiFilterRemoveOutline} color="red"/>
+            </div>
+        </div>
+        {/if}
+		<button on:click={() => search(city)} class="flex ml-auto text-center btn-browse">
+			<Icon path={mdiMagnify} color="black" />
 		</button>
 	</div>
 	<div class="flex flex-wrap pl-0">
