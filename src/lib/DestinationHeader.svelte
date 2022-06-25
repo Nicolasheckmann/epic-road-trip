@@ -1,6 +1,9 @@
 <script>
 	import { getPhotos } from '../services/photos.js';
 	import { globalSearch, updateStore } from '../store.js';
+	import Icon from 'mdi-svelte';
+	import { mdiAirplaneLanding } from '@mdi/js';
+	import FlightsModal from '../lib/map/modals/FlightsModal.svelte';
 
 	let destinationPhotoUrls;
 
@@ -12,6 +15,17 @@
 		};
 		getPhotos(params).then((response) => (destinationPhotoUrls = response.data));
 	}
+
+	let isOpenModal = false;
+
+    function openFlightsModal() {
+        isOpenModal = true;
+    }
+
+    function closeFlightsModal() {
+        isOpenModal = false;
+    }
+	
 </script>
 
 {#if destinationPhotoUrls}
@@ -40,9 +54,17 @@
 					on:change|preventDefault={(e) => updateStore({ endDate: e.target.value })}
 				/>
 			</div>
-		</div>
+			<button class="flex space-x-2 justify-center items-center  px-3 py-2 mt-4 mb-0 ml-4 mr-4 bg-blue-500 hover:bg-blue-800 rounded-full drop-shadow-md">
+				<Icon path={ mdiAirplaneLanding } color="white" />
+				<span class="text-white" on:click={openFlightsModal}>Plan your trip</span>
+			</button>
+		</div> 
 	</div>
 {/if}
+
+<FlightsModal isOpenModal={isOpenModal} on:closeModal={closeFlightsModal} />
+
+
 
 <style>
 	.datePicker {

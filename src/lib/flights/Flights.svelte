@@ -2,6 +2,8 @@
     import { getFlights } from '../../services/flights.js';
     import { onMount } from 'svelte';
     import axios from 'axios';
+    import { globalSearch, updateStore } from '../../store.js';
+	import { getCitiesSuggestion } from '../../services/cities';
     
     export let originLocationCode;
     export let destinationLocationCode;
@@ -11,7 +13,10 @@
     let flights;
 
     onMount(async () => {
-    
+        const lat = $globalSearch.city.lat;
+		const lon = $globalSearch.city.lon;
+
+        console.log("latitude", lat, "longitude", lon);
         const departureLocation = await axios.get(`http://iatageo.com/getCode/43.610769/3.876716`);
         originLocationCode = departureLocation.data.IATA;
         const params = {
