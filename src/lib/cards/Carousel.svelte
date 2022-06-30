@@ -95,11 +95,11 @@
 		/* overflow set to hidden to hide the expanded text */
 		overflow: hidden;
 		/* all style changes will ease-in-out for 1s */
-		-moz-transition: all 0.3s ease-in-out;
-		-ms-transition: all 0.3s ease-in-out;
-		-o-transition: all 0.3s ease-in-out;
-		-webkit-transition: all 0.3s ease-in-out;
-		transition: all 0.3s;
+		-moz-transition: all 0.66s ease-in-out;
+		-ms-transition: all 0.66s ease-in-out;
+		-o-transition: all 0.66s ease-in-out;
+		-webkit-transition: all 0.66s ease-in-out;
+		transition: all 0.66s;
 	}
 
 	#btn-browse > * {
