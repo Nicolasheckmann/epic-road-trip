@@ -8,6 +8,7 @@
 	import Header from '../lib/Header.svelte';
 	import { globalSearch, updateStore } from '../store.js';
 	import { getCityReverse } from '../services/cities.js';
+	import { getPlaces } from '../services/places.js';
 
 	let coords = {
 		lat: $page.url.searchParams.get('lat'),
@@ -22,6 +23,7 @@
 	});
 
 	let events = [];
+	let places = [];
 	let selectedEvent = null;
 
 	const search = () => {
@@ -37,6 +39,15 @@
 
 		getEvents(paramsEvents).then((response) => {
 			events = response.data.events;
+		});
+
+		const paramsPlaces = {
+			lat: $globalSearch.city.lat,
+			lon: $globalSearch.city.lon
+		};
+
+		getPlaces(paramsPlaces).then((response) => {
+			places = response.data
 		});
 	};
 
@@ -56,8 +67,13 @@
 			<DestinationHeader />
 		</div>
 		<div class="p-5">
-			{#if events.length > 0}
-				<Carousel {events} title="Events" cardClickCB={flyTo} />
+			<!--{#if events.length > 0}-->
+			<!--	<Carousel {events} title="Events" cardClickCB={flyTo} />-->
+			<!--{/if}-->
+		</div>
+		<div class="p-5">
+			{#if places.length > 0}
+				<Carousel {places} title="Places" cardClickCB={flyTo} />
 			{/if}
 		</div>
 	</div>
