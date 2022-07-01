@@ -62,7 +62,6 @@ export const get = async ({url}) => {
         body: error.response.result.errors
       }
   });
-    
 }
 
 

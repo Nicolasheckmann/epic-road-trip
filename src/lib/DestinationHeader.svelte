@@ -6,7 +6,7 @@
 	import FlightsModal from '../lib/map/modals/FlightsModal.svelte';
 
 	let destinationPhotoUrls;
-
+	
 	let city;
 	$: city = $globalSearch.city?.name;
 	$: if (city) {

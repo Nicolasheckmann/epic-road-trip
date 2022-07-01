@@ -16,7 +16,6 @@
         const lat = $globalSearch.city.lat;
 		const lon = $globalSearch.city.lon;
 
-        console.log("latitude", lat, "longitude", lon);
         const departureLocation = await axios.get(`http://iatageo.com/getCode/43.610769/3.876716`);
         originLocationCode = departureLocation.data.IATA;
         const params = {
