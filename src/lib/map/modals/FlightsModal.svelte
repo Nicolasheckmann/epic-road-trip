@@ -39,7 +39,9 @@
       getFlights(params)
         .then((response) => {
           flights = response.data.flights
-          console.log("flights",flights)  
+          updateStore({ flights: flights });
+          console.log("flights",$globalSearch.flights);
+          closeModal();  
         })
     }
 </script>

@@ -2,6 +2,7 @@
 	import Icon from 'mdi-svelte';
 	import { mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiChevronDown } from '@mdi/js';
 	import EventCard from '$lib/cards/EventCard.svelte';
+	import Flights from '$lib/flights/Flights.svelte';
 
 	export let events;
 	export let title;
@@ -50,6 +51,9 @@
 			<Icon path={mdiChevronRight} color="black" />
 		</button>
 	</div>
+</div>
+<div>
+	<Flights/>
 </div>
 
 <style>
