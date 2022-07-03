@@ -2,8 +2,8 @@
 node_modules
 /build
 /.svelte-kit
-package-lock.json
 /package
 .env
 .env.*
 !.env.example
+.idea
