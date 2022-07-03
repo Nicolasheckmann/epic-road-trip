@@ -3,6 +3,7 @@ export const formatEvents = (ticketMasterResponse, filters = null) => {
 	// let previousEventName =  null
 	ticketMasterResponse._embedded?.events.forEach((event) => {
 		formattedResponse.events.push({
+			_type: "event",
 			name: event.name,
 			url: event.url,
 			description: event.description,

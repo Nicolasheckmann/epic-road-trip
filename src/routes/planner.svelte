@@ -25,6 +25,7 @@
 	let events = [];
 	let places = [];
 	let selectedEvent = null;
+	let selectedPlace = null;
 
 	const search = () => {
 		const paramsEvents = {
@@ -47,15 +48,26 @@
 		};
 
 		getPlaces(paramsPlaces).then((response) => {
-			places = response.data
+			places = response.data;
 		});
 	};
 
 	$: if ($globalSearch.city) search();
 
-	const flyTo = (event) => {
-		if (event.location) coords = event.location;
-		return (selectedEvent = event);
+	const flyTo = (target) => {
+		if (target._type === "event") {
+			coords = target.location;
+			selectedPlace = null;
+			return (selectedEvent = target);
+		}
+		if (target._type === "place") {
+			coords = {
+				lat: target.geocodes.main.latitude,
+				lon: target.geocodes.main.longitude
+			}
+			selectedEvent = null;
+			return (selectedPlace = target);
+		}
 	};
 </script>
 
@@ -67,9 +79,9 @@
 			<DestinationHeader />
 		</div>
 		<div class="p-5">
-			<!--{#if events.length > 0}-->
-			<!--	<Carousel {events} title="Events" cardClickCB={flyTo} />-->
-			<!--{/if}-->
+			{#if events.length > 0}
+				<Carousel {events} title="Events" cardClickCB={flyTo} />
+			{/if}
 		</div>
 		<div class="p-5">
 			{#if places.length > 0}
@@ -82,7 +94,7 @@
 	<!-- please comment out this component when not developing on it, to save maps api requests which is limited (or paying) -->
 	<div class="w-1/2 fixed right-0">
 		<div class="relative w-full h-screen">
-			<MapContainer {coords} event={selectedEvent} />
+			<MapContainer {coords} event={selectedEvent} place={selectedPlace} />
 		</div>
 	</div>
 </div>

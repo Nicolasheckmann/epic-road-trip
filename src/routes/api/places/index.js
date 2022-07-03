@@ -42,6 +42,7 @@ const _addPlacesPhotos = async (places) => {
 		Authorization: import.meta.env.VITE_FOURSQUARE
 	};
 	for (const place of places) {
+		place._type = "place"
 		place.photos = await axios
 			.get('https://api.foursquare.com/v3/places/' + place.fsq_id + '/photos', { headers, params })
 			.then((res) => res.data);

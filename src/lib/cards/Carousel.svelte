@@ -35,24 +35,11 @@
 	const browseAll = () => {
 		BbrowseAll = !BbrowseAll;
 	}
-
-	// const movePagination = (index) => {
-	// 	if (index > 1)
-	// 		paginationLimitDown = (index-1) + (paginationIndex * index) - paginationIndex
-	// 	else
-	// 		paginationLimitDown = (index) + (paginationIndex * index) - paginationIndex
-	//
-	// 	paginationLimitUp = (index-1) + (paginationIndex * index)
-	//
-	// 	indexActive = index;
-	//
-	// 	console.log("page down ", paginationLimitDown, "page up ", paginationLimitUp)
-	// }
 </script>
 
 {#if !BbrowseAll}
 
-<div id="expand-events" class="m-auto expandable"> 
+<div id="expand-events" class="m-auto expandable">
 	<div class="flex" style="height: 50px;">
 		<div on:click={() => toggleHeight(350)} class="inline-block float-right">
 			{#if carouselExpanded}
@@ -62,10 +49,12 @@
 			{/if}
 		</div>
 		<h3 on:click={() => toggleHeight(350)} class="inline-block">{title}</h3>
-		<button on:click={() => browseAll()} class="flex text-center ml-auto btn-browse">
-			<Icon path={mdiMagnify} color="black" />
-			<span>Browse all</span>
-		</button>
+		{#if events.length}
+			<button on:click={() => browseAll()} class="flex text-center ml-auto btn-browse">
+				<Icon path={mdiMagnify} color="black" />
+				<span>Browse all</span>
+			</button>
+		{/if}
 	</div>
 	<div class="flex items-center justify-center">
 		<button class="" on:click={() => moveIndex('prev')}>
@@ -89,10 +78,8 @@
 </div>
 
 {:else}
-
 	<BrowseAll cardClickCB={cardClickCB} backCarousel={browseAll} />
-
-{/if}	
+{/if}
 
 
 <style>

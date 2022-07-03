@@ -3,11 +3,13 @@
 	import 'mapbox-gl/dist/mapbox-gl.css';
 	import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 	import EventModal from './modals/EventModal.svelte';
+	import PlaceModal from "./modals/PlaceModal.svelte";
 	import { globalSearch } from '../../store.js';
 	import { getHotelsNearby } from '../../services/hotels.js';
 
 	export let coords;
 	export let event = null;
+	export let place = null;
 	let map = null;
 	let marker = null;
 	let mapboxgl = null;
@@ -95,6 +97,9 @@
 <div id="map" />
 {#if event}
 	<EventModal {event} />
+{/if}
+{#if place}
+	<PlaceModal {place} />
 {/if}
 
 <style>
