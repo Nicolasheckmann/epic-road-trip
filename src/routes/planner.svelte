@@ -8,6 +8,7 @@
 	import Header from '../lib/Header.svelte';
 	import { globalSearch, updateStore } from '../store.js';
 	import { getCityReverse } from '../services/cities.js';
+	import { getPlaces } from '../services/places.js';
 
 	let coords = {
 		lat: $page.url.searchParams.get('lat'),
@@ -22,7 +23,9 @@
 	});
 
 	let events = [];
+	let places = [];
 	let selectedEvent = null;
+	let selectedPlace = null;
 
 	const search = () => {
 		const paramsEvents = {
@@ -38,16 +41,35 @@
 		getEvents(paramsEvents).then((response) => {
 			events = response.data.events;
 		});
+
+		const paramsPlaces = {
+			lat: $globalSearch.city.lat,
+			lon: $globalSearch.city.lon
+		};
+
+		getPlaces(paramsPlaces).then((response) => {
+			places = response.data;
+		});
 	};
 
 	$: if ($globalSearch.city) search();
 
-	const flyTo = (event) => {
-		if (event.location) coords = event.location;
-		return (selectedEvent = event);
+	const flyTo = (target) => {
+		if (target._type === "event") {
+			coords = target.location;
+			selectedPlace = null;
+			return (selectedEvent = target);
+		}
+		if (target._type === "place") {
+			coords = {
+				lat: target.geocodes.main.latitude,
+				lon: target.geocodes.main.longitude
+			}
+			selectedEvent = null;
+			return (selectedPlace = target);
+		}
 	};
 </script>
-
 <div class="flex">
 	<!-- left panel, 50% page width -->
 	<div class="w-1/2 bg-gray-50 relative">
@@ -60,13 +82,18 @@
 				<Carousel {events} title="Events" cardClickCB={flyTo} />
 			{/if}
 		</div>
+		<div class="p-5">
+			{#if places.length > 0}
+				<Carousel {places} title="Places" cardClickCB={flyTo} />
+			{/if}
+		</div>
 	</div>
 
 	<!-- right panel, 50% page width-->
 	<!-- please comment out this component when not developing on it, to save maps api requests which is limited (or paying) -->
 	<div class="w-1/2 fixed right-0">
 		<div class="relative w-full h-screen">
-			<MapContainer {coords} event={selectedEvent} />
+			<MapContainer {coords} event={selectedEvent} place={selectedPlace} />
 		</div>
 	</div>
 </div>

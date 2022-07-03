@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+
 	import Icon from 'mdi-svelte';
 	import { mdiMagnify } from '@mdi/js';
 	import { globalSearch, updateStore } from '../store.js';
