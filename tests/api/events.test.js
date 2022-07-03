@@ -14,6 +14,6 @@ test('Should fail when no city param', ({request}) => {
       return response.json();
     })
     .then(json => {
-      expect(json.error).toBe('city param is required');
+      expect(json.error).toBe('cities.js param is required');
     });
 });
