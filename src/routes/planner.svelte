@@ -70,7 +70,6 @@
 		}
 	};
 </script>
-
 <div class="flex">
 	<!-- left panel, 50% page width -->
 	<div class="w-1/2 bg-gray-50 relative">
