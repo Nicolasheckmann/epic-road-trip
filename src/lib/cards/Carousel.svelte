@@ -11,11 +11,16 @@
 	export let cardClickCB;
 	let BbrowseAll = false;
 
+	const toggleSizes = {
+		places: 350,
+		events: 180
+	}
+
 	let indexToShow = 0;
 	let carouselExpanded = true;
 
 	const toggleHeight = (maxHeight) => {
-		let e = document.getElementById('expand-events');
+		let e = document.getElementById('expand-' + title.toLowerCase());
 
 		if (e.style.height != '30px') {
 			e.style.height = '30px'; // height of one line: 20px
@@ -39,16 +44,16 @@
 
 {#if !BbrowseAll}
 
-<div id="expand-events" class="m-auto expandable">
+<div id="expand-{title.toLowerCase()}" class="m-auto expandable">
 	<div class="flex" style="height: 50px;">
-		<div on:click={() => toggleHeight(350)} class="inline-block float-right">
+		<div on:click={() => toggleHeight(toggleSizes[title.toLowerCase()])} class="inline-block float-right">
 			{#if carouselExpanded}
 				<Icon path={mdiChevronDown} color="black" />
 			{:else}
 				<Icon path={mdiChevronUp} color="black" />
 			{/if}
 		</div>
-		<h3 on:click={() => toggleHeight(350)} class="inline-block">{title}</h3>
+		<h3 on:click={() => toggleHeight(toggleSizes[title.toLowerCase()])} class="inline-block">{title}</h3>
 		{#if events.length}
 			<button on:click={() => browseAll()} class="flex text-center ml-auto btn-browse">
 				<Icon path={mdiMagnify} color="black" />
