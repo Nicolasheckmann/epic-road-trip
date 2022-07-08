@@ -1,6 +1,5 @@
 <script>
-    import axios from 'axios';
-    import { onMount } from 'svelte';
+    
     import { getFlights } from '../../../services/flights'
     import { createEventDispatcher } from 'svelte';
     import { globalSearch, updateStore } from '../../../store';
@@ -38,9 +37,9 @@
       }
       getFlights(params)
         .then((response) => {
-          flights = response.data.flights
+          flights = response.data.flights.slice(0,10);
           updateStore({ flights: flights });
-          console.log("flights",$globalSearch.flights);
+          console.log("flights",flights);
           closeModal();  
         })
     }
@@ -80,14 +79,22 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-password">
             Your destination
           </label>
-          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Destination..." bind:value={destinationLocationCode}>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Destination..." 
+          bind:value={destinationLocationCode}
+          on:change|preventDefault={(e) => {
+            updateStore({ destinationLocationCode: e.target.value });
+          }}>
           <p class="text-gray-600 text-xs italic">You're gonna enjoy it!</p>
         </div>
         <div class="w-full px-3 md:w-1/2 mb-6">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-password">
             Departure City
           </label>
-          <input bind:value={originLocationCode} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="From...">
+          <input bind:value={originLocationCode} 
+            on:change|preventDefault={(e) => {
+						  updateStore({ originLocationCode: e.target.value });
+				  	}}
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="From...">
           <p class="text-gray-600 text-xs italic">Home sweet home...</p>
       </div>
       <div class="flex flex-wrap -mx-3 mb-3">

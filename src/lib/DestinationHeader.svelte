@@ -54,9 +54,9 @@
 					on:change|preventDefault={(e) => updateStore({ endDate: e.target.value })}
 				/>
 			</div>
-			<button class="flex space-x-2 justify-center items-center  px-3 py-2 mt-4 mb-0 ml-4 mr-4 bg-blue-500 hover:bg-blue-800 rounded-full drop-shadow-md">
+			<button on:click={openFlightsModal} class="flex space-x-2 justify-center items-center  px-3 py-2 mt-4 mb-0 ml-4 mr-4 bg-blue-500 hover:bg-blue-800 rounded-full drop-shadow-md">
 				<Icon path={ mdiAirplaneLanding } color="white" />
-				<span class="text-white" on:click={openFlightsModal}>Plan your trip</span>
+				<span class="text-white">Plan your trip</span>
 			</button>
 		</div> 
 	</div>
