@@ -41,6 +41,7 @@
 				<input
 					class="font-bold"
 					type="date"
+					min={new Date().toISOString().slice(0, -14)}
 					value={$globalSearch.startDate}
 					on:change|preventDefault={(e) => {
 						updateStore({ startDate: e.target.value });
@@ -50,6 +51,7 @@
 				<input
 					class="font-bold"
 					type="date"
+					min={$globalSearch.startDate}
 					value={$globalSearch.endDate}
 					on:change|preventDefault={(e) => updateStore({ endDate: e.target.value })}
 				/>

@@ -26,8 +26,8 @@
             </div>
             <div class="text-sm mx-2 p-2 flex flex-col">
                 <button 
-                class="w-32 h-11 rounded flex border-solid border bg-white mx-2 justify-center place-items-center">
-                Add to trip
+                class="w-32 h-11 rounded flex border-solid border bg-emerald-400 text-white mx-2 justify-center place-items-center rounded-full">
+                Add to your trip
             </button>
             </div>
         </div>

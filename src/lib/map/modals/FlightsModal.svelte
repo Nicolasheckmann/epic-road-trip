@@ -54,12 +54,15 @@
             Start date
           </label>
           <input 
+            min={new Date().toISOString().slice(0, -14)}
             on:change|preventDefault={(e) => {
               updateStore({ startDate: e.target.value });
             }}
-            bind:value={departureDate} 
+            bind:value={departureDate}
+            required 
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-            id="grid-last-name" type="date">
+            id="grid-last-name" 
+            type="date">
         </div>
         <div class="w-full md:w-1/2 px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-last-name">
@@ -69,6 +72,7 @@
             on:change|preventDefault={(e) => {
               updateStore({ endDate: e.target.value });
             }}
+            min={$globalSearch.startDate}
             bind:value={returnDate} 
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
             id="grid-last-name" type="date">
@@ -81,6 +85,7 @@
           </label>
           <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="Destination..." 
           bind:value={destinationLocationCode}
+          required
           on:change|preventDefault={(e) => {
             updateStore({ destinationLocationCode: e.target.value });
           }}>
@@ -90,10 +95,12 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-password">
             Departure City
           </label>
-          <input bind:value={originLocationCode} 
+          <input 
+            bind:value={originLocationCode}
             on:change|preventDefault={(e) => {
 						  updateStore({ originLocationCode: e.target.value });
 				  	}}
+            required
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" placeholder="From...">
           <p class="text-gray-600 text-xs italic">Home sweet home...</p>
       </div>
@@ -102,7 +109,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-city">
             Adults
           </label>
-          <input bind:value={adults} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder=0>
+          <input bind:value={adults} required class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder=0>
         </div>
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3" for="grid-state">
@@ -122,7 +129,7 @@
         </label>
         <input  bind:checked={nonStop} class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
       </div>
-    <button on:click|preventDefault={submitForm} id = "search" class="flex space-x-2 justify-center items-center  px-3 py-2 mt-4 mb-4 mb-0 ml-4 mr-4 bg-blue-500 hover:bg-blue-800 rounded-full drop-shadow-md">
+    <button on:click|preventDefault={submitForm} type="submit" id = "search" class="flex space-x-2 justify-center items-center  px-3 py-2 mt-4 mb-4 mb-0 ml-4 mr-4 bg-blue-500 hover:bg-blue-800 rounded-full drop-shadow-md">
         <span class="text-white">Search flights offer</span>
     </button>
   </form>
@@ -157,5 +164,13 @@
         margin: 0 auto;
         margin-top: 3%;
     }
+
+    input:invalid {
+      border: 1px solid red;
+    }
+    form:invalid #search {
+      opacity: 0.5;
+      pointer-events: none;
+  }
 
 </style>
