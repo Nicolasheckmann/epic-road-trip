@@ -1,5 +1,5 @@
 export const formatFlights = (amadeusFlightsResponse) => {
-    let formattedResponse = {flights: []};
+  let formattedResponse = {flights: []};
       amadeusFlightsResponse.forEach(flight => {
         let itineraries =  [];
         flight.itineraries.forEach(itinerary => {

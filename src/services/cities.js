@@ -33,3 +33,10 @@ export const getCityReverse = (params) => {
 		})
 		.catch((e) => console.log(e));
 };
+
+export const getIatacode = async (city) => {
+	if(city.iata) return 
+	const destinationLocation = await axios.get(`http://iatageo.com/getCode/${city.lat}/${city.lon}`);
+    console.log(destinationLocation)
+    return destinationLocation.data.IATA
+}

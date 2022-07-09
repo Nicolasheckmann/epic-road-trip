@@ -1,9 +1,10 @@
 <script>
 	import Icon from 'mdi-svelte';
-	import { mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiChevronDown, mdiMagnify } from '@mdi/js';
+	import { mdiChevronLeft, mdiChevronRight, mdiChevronUp, mdiChevronDown, mdiMagnify} from '@mdi/js';
 	import EventCard from '$lib/cards/EventCard.svelte';
 	import BrowseAll from '$lib/cards/BrowseAll.svelte';
 	import PlaceCard from "./PlaceCard.svelte";
+	import { globalSearch, updateStore } from '../../store';
 
 	export let events = [];
 	export let places = [];
@@ -40,6 +41,8 @@
 	const browseAll = () => {
 		BbrowseAll = !BbrowseAll;
 	}
+	
+
 </script>
 
 {#if !BbrowseAll}

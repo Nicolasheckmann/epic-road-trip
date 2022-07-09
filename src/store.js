@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { mergeDeep } from './utils';
 
 export const globalSearch = writable({});
 
@@ -12,3 +13,4 @@ export const updateUser = (newState) =>
 		previousState = {...newState}
 		return previousState
 	});
+	globalSearch.update((previousState, newState) => mergeDeep(previousState, newState));

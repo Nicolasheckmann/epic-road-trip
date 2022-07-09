@@ -4,7 +4,7 @@
 	import Icon from 'mdi-svelte';
 	import { mdiMagnify } from '@mdi/js';
 	import { globalSearch, updateStore } from '../store.js';
-	import { getCitiesSuggestion } from '../services/cities.js';
+	import { getCitiesSuggestion, getIatacode} from '../services/cities.js';
 
 	let city = '';
 	let suggestions = [];
@@ -100,9 +100,13 @@
 											<ul>
 												<li
 													class="mt-2 flex items-center cursor-pointer text-ellipsis"
-													on:mousedown={() => {
+													on:mousedown={async () => {
 														city = suggestion.name;
+														const iata = await getIatacode(suggestion)
+														console.log("iata1", iata);
+                        								suggestion.iata = iata
 														updateStore({ city: suggestion });
+														console.log("destination", $globalSearch.city);
 													}}
 												>
 													<Icon path={mdiMagnify} size="0.8" />
