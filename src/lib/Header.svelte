@@ -13,7 +13,10 @@
 		}
 	}
 	const handleSignOut = () => signOut(auth)
-		.then(() => updateUser({loggedIn: false}))
+		.then(() => {
+			updateUser({loggedIn: false})
+			localStorage.removeItem("user")
+		})
 		.catch((error) => {
 		console.log("=>(Header.svelte:20) error", error.message);
 	});

@@ -4,7 +4,7 @@
 	import { getEvents } from '../../services/events.js';
     import EventCard from '$lib/cards/EventCard.svelte';
     import { onMount } from 'svelte';
-    import { globalSearch, updateStore } from '../../store.js';
+    import { globalSearch } from '../../store.js';
 
 
 	export let cardClickCB;
@@ -41,9 +41,7 @@
                 events = response.data.events.filter(e => e.name.toLowerCase().includes(searchText.toLowerCase()))
             } else
 			    events = response.data.events;
-            console.log('{GET_EVENTS} : events:', events)
             totalPages = response.data.page.totalPages;
-            console.log('{GET_EVENTS} : totalPages:', totalPages)
 		});
 	};
 
@@ -64,7 +62,6 @@
             arrayPagination = Array(pagination-1, pagination, pagination+1)
 
         await search(city);
-        console.log("array ;", arrayPagination)
     }
 
 	onMount(async () => {
