@@ -1,0 +1,370 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Epic Road Trip api documentation.",
+    "version": "1.0.0",
+    "title": "Epic Road Trip"
+  },
+  "host": "epic-road-trip-git-dev-nicolasheckmann.vercel.app",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Events",
+      "description": "Everything about events",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "Flights",
+      "description": "Everything about flights"
+    },
+    {
+      "name": "Hotels",
+      "description": "Everything about hotels"
+    },
+    {
+      "name": "Places",
+      "description": "Everything about places"
+    },
+    {
+      "name": "Cities",
+      "description": "Get cities"
+    },
+    {
+      "name": "Photos",
+      "description": "Get photos from a city"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/events": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Finds events near a city",
+        "description": "Search events by city name",
+        "operationId": "findEventsByCity",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Name of the city",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "startDateTime",
+            "in": "query",
+            "description": "Starting date to filter events (ex: 2022-07-21T00:00:00z)",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "endDateTime",
+            "in": "query",
+            "description": "Ending date to filter events (ex: 2022-07-21T00:00:00z)",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Number of events that request will get",
+            "type": "number",
+            "required": false
+          },
+          {
+            "name": "minPrice",
+            "in": "query",
+            "description": "Minimum price to filter events",
+            "type": "number",
+            "required": false
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "description": "Maximum price to filter events",
+            "type": "number",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/flights": {
+      "get": {
+        "tags": [
+          "Flights"
+        ],
+        "summary": "Find flights to a city",
+        "description": "Returns flights available for a trip and informations about it",
+        "operationId": "findFlightsByIataCode",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "originLocationCode",
+            "in": "query",
+            "description": "Iata code of the departure",
+            "required": true,
+            "type": "string",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "destinationLocationCode",
+            "in": "query",
+            "description": "Iata code of the destination",
+            "required": true,
+            "type": "string",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "departureDate",
+            "in": "query",
+            "description": "Date of departure from origin location",
+            "required": true,
+            "type": "string",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "returnDate",
+            "in": "query",
+            "description": "Date of return from destination location",
+            "required": true,
+            "type": "string",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adults",
+            "in": "query",
+            "description": "Number of adults",
+            "required": true,
+            "type": "number",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nonStop",
+            "in": "query",
+            "description": "Boolean to exclude stopovers",
+            "required": false,
+            "type": "boolean",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hotels": {
+      "get": {
+        "tags": [
+          "Hotels"
+        ],
+        "summary": "Find hotels near a city",
+        "description": "Returns hotels available near your destination",
+        "operationId": "placeOrder",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the city",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "query",
+            "name": "lon",
+            "description": "Longitude of the city",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    },
+    "/places": {
+      "get": {
+        "tags": [
+          "Places"
+        ],
+        "summary": "Find places near a city",
+        "description": "Returns places near your destination",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "Latitude of the city",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "query",
+            "name": "lon",
+            "description": "Longitude of the city",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "tags": [
+          "Cities"
+        ],
+        "summary": "Find city",
+        "description": "Returns cities matching query for auto completion",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cityQuery",
+            "description": "City",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    },
+    "/cities/reverse": {
+      "get": {
+        "tags": [
+          "Cities"
+        ],
+        "summary": "Find city by coordinates",
+        "description": "Returns cities matching latitude and longitude",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lat",
+            "description": "City lat",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "query",
+            "name": "lon",
+            "description": "City lon",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    },
+    "/photos": {
+      "get": {
+        "tags": [
+          "Photos"
+        ],
+        "summary": "Get photos of a city",
+        "description": "Return pictures of a given city",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "description": "City name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid Order"
+          }
+        }
+      }
+    }
+  }
+}
